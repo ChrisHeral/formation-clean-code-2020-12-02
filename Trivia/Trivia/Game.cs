@@ -151,7 +151,7 @@ namespace Trivia
             }
             else
             {
-                Console.WriteLine("Answer was corrent!!!!");
+                Console.WriteLine("Answer was correct!!!!");
                 purses[currentPlayer]++;
                 Console.WriteLine($"{players[currentPlayer]} now has {purses[currentPlayer]} Gold Coins.");
 
