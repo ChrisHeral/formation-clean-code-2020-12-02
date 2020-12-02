@@ -66,8 +66,8 @@ namespace Trivia
 
         public void Roll(int roll)
         {
-            Console.WriteLine(players[currentPlayer] + " is the current player"); Console.WriteLine("They have rolled a " + roll);
-
+            Console.WriteLine(players[currentPlayer] + " is the current player");
+            Console.WriteLine("They have rolled a " + roll);
 
             if (inPenaltyBox[currentPlayer])
             {
@@ -78,13 +78,7 @@ namespace Trivia
                     //Write that user is getting out
                     Console.WriteLine(players[currentPlayer] + " is getting out of the penalty box");
                     // add roll to place
-                    places[currentPlayer] = places[currentPlayer] + roll;
-                    if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
-
-                    Console.WriteLine(players[currentPlayer]
-                            + "'s new location is "
-                            + places[currentPlayer]);
-                    Console.WriteLine("The category is " + CurrentCategory());
+                    MovePlayer(roll);
                     AskQuestion();
                 }
                 else
@@ -95,19 +89,25 @@ namespace Trivia
             }
             else
             {
-                places[currentPlayer] = places[currentPlayer] + roll;
-                if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
-
-                Console.WriteLine(players[currentPlayer]
-                        + "'s new location is "
-                        + places[currentPlayer]);
-                Console.WriteLine("The category is " + CurrentCategory());
+                MovePlayer(roll);
                 AskQuestion();
             }
         }
 
+        private void MovePlayer(int roll)
+        {
+            const int maxPlaceSize = 12;
+            places[currentPlayer] = (places[currentPlayer] + roll) % maxPlaceSize;
+
+            Console.WriteLine(players[currentPlayer]
+                    + "'s new location is "
+                    + places[currentPlayer]);
+        }
+
         private void AskQuestion()
         {
+            Console.WriteLine("The category is " + CurrentCategory());
+
             if (CurrentCategory() == PopCategoryName)
             {
                 Console.WriteLine(popQuestions.First());
@@ -160,15 +160,14 @@ namespace Trivia
                             + " Gold Coins.");
 
                     var winner = !(purses[currentPlayer] == 6);
-                    currentPlayer++;
-                    if (currentPlayer == players.Count) currentPlayer = 0;
+                    IncrementCurrentPlayer();
 
                     return winner;
                 }
                 else
                 {
-                    currentPlayer++;
-                    if (currentPlayer == players.Count) currentPlayer = 0;
+                    IncrementCurrentPlayer();
+
                     return true;
                 }
             }
@@ -182,8 +181,7 @@ namespace Trivia
                         + " Gold Coins.");
 
                 var winner = !(purses[currentPlayer] == 6);
-                currentPlayer++;
-                if (currentPlayer == players.Count) currentPlayer = 0;
+                IncrementCurrentPlayer();
 
                 return winner;
             }
@@ -194,14 +192,20 @@ namespace Trivia
             Console.WriteLine("Question was incorrectly answered");
             Console.WriteLine(players[currentPlayer] + " was sent to the penalty box");
             inPenaltyBox[currentPlayer] = true;
+            IncrementCurrentPlayer();
 
-            currentPlayer++;
-            if (currentPlayer == players.Count) currentPlayer = 0;
             return true;
         }
 
+        private void IncrementCurrentPlayer()
+        {
+            currentPlayer++;
 
-
+            if (currentPlayer == players.Count)
+            {
+                currentPlayer = 0;
+            }
+        }
     }
 
 }
