@@ -53,7 +53,7 @@ namespace Tests
         }
 
         [Fact]
-        public void TOTO()
+        public void should_not_answer_question_if_without_player()
         {
             // Arrange : start game with ???
 
@@ -63,6 +63,32 @@ namespace Tests
             // Assert
             var ex = Assert.Throws<InvalidOperationException>(() => game.WasCorrectlyAnswered());
             Assert.Equal("Missing player", ex.Message);
+        }
+
+        [Fact]
+        public void should_not_answer_question_with_only_one_player()
+        {
+            // Arrange : start game with ???
+            game.Add("roberto");
+
+            // Act : WasCorrectlyAnswered => victory
+
+            // Assert
+            var ex = Assert.Throws<InvalidOperationException>(() => game.WasCorrectlyAnswered());
+            Assert.Equal("Missing player", ex.Message);
+        }
+
+        [Fact]
+        public void should_be_able_to_play_with_two_players()
+        {
+            // Arrange : start game with ???
+            game.Add("roberto");
+            game.Add("jojo");
+
+            // Act : WasCorrectlyAnswered => victory
+            var exception = Record.Exception(() => game.WasCorrectlyAnswered());
+            // Assert
+            Assert.Null(exception);
         }
     }
 }

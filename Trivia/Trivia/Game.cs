@@ -20,8 +20,7 @@ namespace Trivia
         private readonly bool[] inPenaltyBox = new bool[MaximumNumberOfPlayers];
 
         private readonly Dictionary<string, LinkedList<string>> questionsByCategory = new Dictionary<string, LinkedList<string>>
-        {
-            { PopCategoryName, new LinkedList<string>() },
+        { { PopCategoryName, new LinkedList<string>() },
             { ScienceCategoryName, new LinkedList<string>() },
             { SportsCategoryName, new LinkedList<string>() },
             { RockCategoryName, new LinkedList<string>() },
@@ -72,16 +71,16 @@ namespace Trivia
         {
             Console.WriteLine(players[currentPlayer] + " is the current player");
             Console.WriteLine("They have rolled a " + roll);
+            var isOdd = roll % 2 != 0;
 
             if (inPenaltyBox[currentPlayer])
             {
-                if (roll % 2 != 0)
+                if (isOdd)
                 {
-                    //User is getting out of penalty box
                     isGettingOutOfPenaltyBox = true;
-                    //Write that user is getting out
+
                     Console.WriteLine(players[currentPlayer] + " is getting out of the penalty box");
-                    // add roll to place
+
                     MovePlayer(roll);
                     AskQuestion();
                 }
@@ -116,7 +115,8 @@ namespace Trivia
                 1 => ScienceCategoryName,
                 2 => SportsCategoryName,
                 3 => RockCategoryName,
-                _ => throw new NotImplementedException()
+                _ =>
+                throw new NotImplementedException()
             };
             HandleQuestionByCategory(categoryName);
         }
