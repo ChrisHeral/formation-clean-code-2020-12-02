@@ -37,6 +37,11 @@ namespace Trivia
             }
         }
 
+        private LinkedList<string> GetQuestions(string categoryName)
+        {
+            return null;
+        }
+
         private string CreateQuestion(int questionNumber, string questionType)
         {
             return questionType + " Question " + questionNumber;
@@ -99,52 +104,42 @@ namespace Trivia
             const int maxPlaceSize = 12;
             places[currentPlayer] = (places[currentPlayer] + roll) % maxPlaceSize;
 
-            Console.WriteLine(players[currentPlayer]
-                    + "'s new location is "
-                    + places[currentPlayer]);
+            Console.WriteLine(players[currentPlayer] +
+                "'s new location is " +
+                places[currentPlayer]);
         }
 
         private void AskQuestion()
         {
-            Console.WriteLine("The category is " + CurrentCategory());
 
-            if (CurrentCategory() == PopCategoryName)
+            if (places[currentPlayer] % 4 == 0)
             {
+                Console.WriteLine("The category is " + PopCategoryName);
                 Console.WriteLine(popQuestions.First());
                 popQuestions.RemoveFirst();
             }
-            if (CurrentCategory() == ScienceCategoryName)
+            if (places[currentPlayer] % 4 == 1)
             {
+
+                Console.WriteLine("The category is " + ScienceCategoryName);
                 Console.WriteLine(scienceQuestions.First());
                 scienceQuestions.RemoveFirst();
             }
-            if (CurrentCategory() == SportsCategoryName)
+            if (places[currentPlayer] % 4 == 2)
             {
+
+                Console.WriteLine("The category is " + SportsCategoryName);
                 Console.WriteLine(sportQuestions.First());
                 sportQuestions.RemoveFirst();
             }
-            if (CurrentCategory() == RockCategoryName)
+            if (places[currentPlayer] % 4 == 3)
             {
+
+                Console.WriteLine("The category is " + RockCategoryName);
                 Console.WriteLine(rockQuestions.First());
                 rockQuestions.RemoveFirst();
             }
         }
-
-        private string CurrentCategory()
-        {
-            if (places[currentPlayer] == 0) return PopCategoryName;
-            if (places[currentPlayer] == 4) return PopCategoryName;
-            if (places[currentPlayer] == 8) return PopCategoryName;
-            if (places[currentPlayer] == 1) return ScienceCategoryName;
-            if (places[currentPlayer] == 5) return ScienceCategoryName;
-            if (places[currentPlayer] == 9) return ScienceCategoryName;
-            if (places[currentPlayer] == 2) return SportsCategoryName;
-            if (places[currentPlayer] == 6) return SportsCategoryName;
-            if (places[currentPlayer] == 10) return SportsCategoryName;
-            return RockCategoryName;
-        }
-
-
 
         public bool WasCorrectlyAnswered()
         {
@@ -154,10 +149,10 @@ namespace Trivia
                 {
                     Console.WriteLine("Answer was correct!!!!");
                     purses[currentPlayer]++;
-                    Console.WriteLine(players[currentPlayer]
-                            + " now has "
-                            + purses[currentPlayer]
-                            + " Gold Coins.");
+                    Console.WriteLine(players[currentPlayer] +
+                        " now has " +
+                        purses[currentPlayer] +
+                        " Gold Coins.");
 
                     var winner = !(purses[currentPlayer] == 6);
                     IncrementCurrentPlayer();
@@ -175,10 +170,10 @@ namespace Trivia
             {
                 Console.WriteLine("Answer was corrent!!!!");
                 purses[currentPlayer]++;
-                Console.WriteLine(players[currentPlayer]
-                        + " now has "
-                        + purses[currentPlayer]
-                        + " Gold Coins.");
+                Console.WriteLine(players[currentPlayer] +
+                    " now has " +
+                    purses[currentPlayer] +
+                    " Gold Coins.");
 
                 var winner = !(purses[currentPlayer] == 6);
                 IncrementCurrentPlayer();
