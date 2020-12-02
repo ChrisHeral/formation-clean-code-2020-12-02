@@ -18,10 +18,13 @@ namespace Trivia
         private readonly int[] purses = new int[MaximumNumberOfPlayers];
         private readonly bool[] inPenaltyBox = new bool[MaximumNumberOfPlayers];
 
-        private readonly LinkedList<string> popQuestions = new LinkedList<string>();
-        private readonly LinkedList<string> scienceQuestions = new LinkedList<string>();
-        private readonly LinkedList<string> sportQuestions = new LinkedList<string>();
-        private readonly LinkedList<string> rockQuestions = new LinkedList<string>();
+        private readonly Dictionary<string, LinkedList<string>> questionsByCategory = new Dictionary<string, LinkedList<string>>
+        {
+            { PopCategoryName, new LinkedList<string>() },
+            { ScienceCategoryName, new LinkedList<string>() },
+            { SportsCategoryName, new LinkedList<string>() },
+            { RockCategoryName, new LinkedList<string>() },
+        };
 
         private int currentPlayer;
         private bool isGettingOutOfPenaltyBox;
@@ -30,16 +33,11 @@ namespace Trivia
         {
             for (var questionNumber = 0; questionNumber < 50; questionNumber++)
             {
-                popQuestions.AddLast(CreateQuestion(questionNumber, PopCategoryName));
-                scienceQuestions.AddLast(CreateQuestion(questionNumber, ScienceCategoryName));
-                sportQuestions.AddLast(CreateQuestion(questionNumber, SportsCategoryName));
-                rockQuestions.AddLast(CreateQuestion(questionNumber, RockCategoryName));
+                questionsByCategory[PopCategoryName].AddLast(CreateQuestion(questionNumber, PopCategoryName));
+                questionsByCategory[ScienceCategoryName].AddLast(CreateQuestion(questionNumber, ScienceCategoryName));
+                questionsByCategory[SportsCategoryName].AddLast(CreateQuestion(questionNumber, SportsCategoryName));
+                questionsByCategory[RockCategoryName].AddLast(CreateQuestion(questionNumber, RockCategoryName));
             }
-        }
-
-        private LinkedList<string> GetQuestions(string categoryName)
-        {
-            return null;
         }
 
         private string CreateQuestion(int questionNumber, string questionType)
@@ -111,34 +109,28 @@ namespace Trivia
 
         private void AskQuestion()
         {
-
-            if (places[currentPlayer] % 4 == 0)
+            switch (places[currentPlayer] % 4)
             {
-                Console.WriteLine("The category is " + PopCategoryName);
-                Console.WriteLine(popQuestions.First());
-                popQuestions.RemoveFirst();
+                case 0:
+                    HandleQuestionByCategory(PopCategoryName);
+                    break;
+                case 1:
+                    HandleQuestionByCategory(ScienceCategoryName);
+                    break;
+                case 2:
+                    HandleQuestionByCategory(SportsCategoryName);
+                    break;
+                case 3:
+                    HandleQuestionByCategory(RockCategoryName);
+                    break;
             }
-            if (places[currentPlayer] % 4 == 1)
-            {
+        }
 
-                Console.WriteLine("The category is " + ScienceCategoryName);
-                Console.WriteLine(scienceQuestions.First());
-                scienceQuestions.RemoveFirst();
-            }
-            if (places[currentPlayer] % 4 == 2)
-            {
-
-                Console.WriteLine("The category is " + SportsCategoryName);
-                Console.WriteLine(sportQuestions.First());
-                sportQuestions.RemoveFirst();
-            }
-            if (places[currentPlayer] % 4 == 3)
-            {
-
-                Console.WriteLine("The category is " + RockCategoryName);
-                Console.WriteLine(rockQuestions.First());
-                rockQuestions.RemoveFirst();
-            }
+        private void HandleQuestionByCategory(string categoryName)
+        {
+            Console.WriteLine("The category is " + categoryName);
+            Console.WriteLine(questionsByCategory[categoryName].First());
+            questionsByCategory[categoryName].RemoveFirst();
         }
 
         public bool WasCorrectlyAnswered()
