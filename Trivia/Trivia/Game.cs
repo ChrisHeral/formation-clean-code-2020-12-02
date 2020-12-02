@@ -71,23 +71,22 @@ namespace Trivia
         {
             Console.WriteLine(players[currentPlayer] + " is the current player");
             Console.WriteLine("They have rolled a " + roll);
-            var isOdd = roll % 2 != 0;
+            var isEven = roll % 2 == 0;
 
             if (inPenaltyBox[currentPlayer])
             {
-                if (isOdd)
-                {
-                    isGettingOutOfPenaltyBox = true;
-
-                    Console.WriteLine(players[currentPlayer] + " is getting out of the penalty box");
-
-                    MovePlayer(roll);
-                    AskQuestion();
-                }
-                else
+                if (isEven)
                 {
                     Console.WriteLine(players[currentPlayer] + " is not getting out of the penalty box");
                     isGettingOutOfPenaltyBox = false;
+                }
+                else
+                {
+                    Console.WriteLine(players[currentPlayer] + " is getting out of the penalty box");
+                    isGettingOutOfPenaltyBox = true;
+
+                    MovePlayer(roll);
+                    AskQuestion();
                 }
             }
             else
