@@ -109,21 +109,15 @@ namespace Trivia
 
         private void AskQuestion()
         {
-            switch (places[currentPlayer] % 4)
+            var categoryName = (places[currentPlayer] % 4) switch
             {
-                case 0:
-                    HandleQuestionByCategory(PopCategoryName);
-                    break;
-                case 1:
-                    HandleQuestionByCategory(ScienceCategoryName);
-                    break;
-                case 2:
-                    HandleQuestionByCategory(SportsCategoryName);
-                    break;
-                case 3:
-                    HandleQuestionByCategory(RockCategoryName);
-                    break;
-            }
+                0 => PopCategoryName,
+                1 => ScienceCategoryName,
+                2 => SportsCategoryName,
+                3 => RockCategoryName,
+                _ => throw new NotImplementedException()
+            };
+            HandleQuestionByCategory(categoryName);
         }
 
         private void HandleQuestionByCategory(string categoryName)
@@ -141,10 +135,7 @@ namespace Trivia
                 {
                     Console.WriteLine("Answer was correct!!!!");
                     purses[currentPlayer]++;
-                    Console.WriteLine(players[currentPlayer] +
-                        " now has " +
-                        purses[currentPlayer] +
-                        " Gold Coins.");
+                    Console.WriteLine($"{players[currentPlayer]} now has {purses[currentPlayer]} Gold Coins.");
 
                     var winner = !(purses[currentPlayer] == 6);
                     IncrementCurrentPlayer();
@@ -162,10 +153,7 @@ namespace Trivia
             {
                 Console.WriteLine("Answer was corrent!!!!");
                 purses[currentPlayer]++;
-                Console.WriteLine(players[currentPlayer] +
-                    " now has " +
-                    purses[currentPlayer] +
-                    " Gold Coins.");
+                Console.WriteLine($"{players[currentPlayer]} now has {purses[currentPlayer]} Gold Coins.");
 
                 var winner = !(purses[currentPlayer] == 6);
                 IncrementCurrentPlayer();
