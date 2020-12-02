@@ -130,13 +130,18 @@ namespace Trivia
 
         public bool WasCorrectlyAnswered()
         {
+            if (!IsPlayable())
+            {
+                throw new InvalidOperationException("Missing player");
+            }
+
             if (inPenaltyBox[currentPlayer] && !isGettingOutOfPenaltyBox)
             {
                 IncrementCurrentPlayer();
 
                 return true;
             }
-            
+
             return HandleCorrectAnswer();
         }
 
@@ -152,7 +157,7 @@ namespace Trivia
             return !isWinner;
         }
 
-        public bool WrongAnswer()
+        public bool WasWronglyAnswered()
         {
             Console.WriteLine("Question was incorrectly answered");
             Console.WriteLine(players[currentPlayer] + " was sent to the penalty box");

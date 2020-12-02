@@ -1,13 +1,14 @@
-using System;
-using System.IO;
 using ApprovalTests;
 using ApprovalTests.Reporters;
+using System;
+using System.IO;
 using Trivia;
 using Xunit;
 
 
 namespace Tests
 {
+    [Collection("Sequential")]
     [UseReporter(typeof(DiffReporter))]
     public class GameTest_GoldenMaster
     {
@@ -24,15 +25,16 @@ namespace Tests
             var fakeconsole = new StringWriter();
             Console.SetOut(fakeconsole);
             game.Add("Cedric");
+            game.Add("Eloïse");
             game.Roll(12);
-            game.WrongAnswer();
+            game.WasWronglyAnswered();
             game.Roll(2);
             game.Roll(13);
             game.WasCorrectlyAnswered();
             game.Roll(13);
             Approvals.Verify(fakeconsole.ToString());
         }
-        
+
         [Fact]
         public void Test2()
         {
@@ -62,7 +64,7 @@ namespace Tests
             game.WasCorrectlyAnswered();
             Approvals.Verify(fakeconsole.ToString());
         }
-        
+
         [Fact]
         public void Test3()
         {
@@ -71,7 +73,7 @@ namespace Tests
             game.Add("Cedric");
             game.Add("Eloïse");
             game.Roll(1);
-            game.WrongAnswer();
+            game.WasWronglyAnswered();
             game.Roll(2);
             game.WasCorrectlyAnswered();
             game.Roll(2);

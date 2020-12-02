@@ -1,8 +1,10 @@
-﻿using Trivia;
+﻿using System;
+using Trivia;
 using Xunit;
 
 namespace Tests
 {
+    [Collection("Sequential")]
     public class GameTests
     {
         private Game game;
@@ -17,6 +19,7 @@ namespace Tests
         {
             // Arrange : start game with ???
             game.Add("Chet");
+            game.Add("Toto");
 
             // Act : WasCorrectlyAnswered => victory
             var notVictory = game.WasCorrectlyAnswered();
@@ -30,17 +33,36 @@ namespace Tests
         {
             // Arrange : start game with ???
             game.Add("Chet");
+            game.Add("Toto");
             game.WasCorrectlyAnswered();
+            game.WasWronglyAnswered();
             game.WasCorrectlyAnswered();
+            game.WasWronglyAnswered();
             game.WasCorrectlyAnswered();
+            game.WasWronglyAnswered();
             game.WasCorrectlyAnswered();
+            game.WasWronglyAnswered();
             game.WasCorrectlyAnswered();
+            game.WasWronglyAnswered();
 
             // Act : WasCorrectlyAnswered => victory
             var notVictory = game.WasCorrectlyAnswered();
 
             // Assert
             Assert.False(notVictory);
+        }
+
+        [Fact]
+        public void TOTO()
+        {
+            // Arrange : start game with ???
+
+
+            // Act : WasCorrectlyAnswered => victory
+
+            // Assert
+            var ex = Assert.Throws<InvalidOperationException>(() => game.WasCorrectlyAnswered());
+            Assert.Equal("Missing player", ex.Message);
         }
     }
 }
