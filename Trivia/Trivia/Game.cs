@@ -6,20 +6,18 @@ namespace Trivia
 {
     public class Game
     {
-        private const int FIVE = 6;
+        private const int MaximumNumberOfPlayers = 6;
 
         private readonly List<string> _players = new List<string>();
 
-        private readonly int[] _places = new int[6];
-        private readonly int[] _purses = new int[6];
+        private readonly int[] _places = new int[MaximumNumberOfPlayers];
+        private readonly int[] _purses = new int[MaximumNumberOfPlayers];
+        private readonly bool[] _inPenaltyBox = new bool[MaximumNumberOfPlayers];
 
-        private readonly bool[] _inPenaltyBox = new bool[FIVE];
-
-        private readonly LinkedList<string> _Q1 = new LinkedList<string>();
-        private readonly LinkedList<string> _Q2 = new LinkedList<string>();
-        private readonly LinkedList<string> _Q3 = new LinkedList<string>();
-        private readonly LinkedList<string> _Q4 = new LinkedList<string>();
-
+        private readonly LinkedList<string> _popQuestions = new LinkedList<string>();
+        private readonly LinkedList<string> _scienceQuestions = new LinkedList<string>();
+        private readonly LinkedList<string> _sportQuestions = new LinkedList<string>();
+        private readonly LinkedList<string> _rockQuestions = new LinkedList<string>();
 
         private int _currentPlayer;
         private bool _isGettingOutOfPenaltyBox;
@@ -28,10 +26,10 @@ namespace Trivia
         {
             for (var i = 0; i < 50; i++)
             {
-                _Q1.AddLast("Pop Question " + i);
-                _Q2.AddLast(("Science Question " + i));
-                _Q3.AddLast(("Sports Question " + i));
-                _Q4.AddLast(CreateRockQuestion(i));
+                _popQuestions.AddLast("Pop Question " + i);
+                _scienceQuestions.AddLast(("Science Question " + i));
+                _sportQuestions.AddLast(("Sports Question " + i));
+                _rockQuestions.AddLast(CreateRockQuestion(i));
             }
         }
 
@@ -108,23 +106,23 @@ namespace Trivia
         {
             if (CurrentCategory() == "Pop")
             {
-                Console.WriteLine(_Q1.First());
-                _Q1.RemoveFirst();
+                Console.WriteLine(_popQuestions.First());
+                _popQuestions.RemoveFirst();
             }
             if (CurrentCategory() == "Science")
             {
-                Console.WriteLine(_Q2.First());
-                _Q2.RemoveFirst();
+                Console.WriteLine(_scienceQuestions.First());
+                _scienceQuestions.RemoveFirst();
             }
             if (CurrentCategory() == "Sports")
             {
-                Console.WriteLine(_Q3.First());
-                _Q3.RemoveFirst();
+                Console.WriteLine(_sportQuestions.First());
+                _sportQuestions.RemoveFirst();
             }
             if (CurrentCategory() == "Rock")
             {
-                Console.WriteLine(_Q4.First());
-                _Q4.RemoveFirst();
+                Console.WriteLine(_rockQuestions.First());
+                _rockQuestions.RemoveFirst();
             }
         }
 
