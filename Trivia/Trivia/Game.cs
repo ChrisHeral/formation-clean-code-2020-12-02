@@ -129,37 +129,26 @@ namespace Trivia
 
         public bool WasCorrectlyAnswered()
         {
-            if (inPenaltyBox[currentPlayer])
+            if (inPenaltyBox[currentPlayer] && !isGettingOutOfPenaltyBox)
             {
-                if (isGettingOutOfPenaltyBox)
-                {
-                    Console.WriteLine("Answer was correct!!!!");
-                    purses[currentPlayer]++;
-                    Console.WriteLine($"{players[currentPlayer]} now has {purses[currentPlayer]} Gold Coins.");
-
-                    var winner = !(purses[currentPlayer] == 6);
-                    IncrementCurrentPlayer();
-
-                    return winner;
-                }
-                else
-                {
-                    IncrementCurrentPlayer();
-
-                    return true;
-                }
-            }
-            else
-            {
-                Console.WriteLine("Answer was correct!!!!");
-                purses[currentPlayer]++;
-                Console.WriteLine($"{players[currentPlayer]} now has {purses[currentPlayer]} Gold Coins.");
-
-                var winner = !(purses[currentPlayer] == 6);
                 IncrementCurrentPlayer();
 
-                return winner;
+                return true;
             }
+            
+            return HandleCorrectAnswer();
+        }
+
+        private bool HandleCorrectAnswer()
+        {
+            Console.WriteLine("Answer was correct!!!!");
+            purses[currentPlayer]++;
+            Console.WriteLine($"{players[currentPlayer]} now has {purses[currentPlayer]} Gold Coins.");
+
+            var winner = !(purses[currentPlayer] == 6);
+            IncrementCurrentPlayer();
+
+            return winner;
         }
 
         public bool WrongAnswer()
