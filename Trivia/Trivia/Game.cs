@@ -7,6 +7,7 @@ namespace Trivia
     public class Game
     {
         private const int MaximumNumberOfPlayers = 6;
+        private const int GoldenCoinsForVictory = 6;
         private const string PopCategoryName = "Pop";
         private const string ScienceCategoryName = "Science";
         private const string SportsCategoryName = "Sports";
@@ -145,10 +146,10 @@ namespace Trivia
             purses[currentPlayer]++;
             Console.WriteLine($"{players[currentPlayer]} now has {purses[currentPlayer]} Gold Coins.");
 
-            var winner = !(purses[currentPlayer] == 6);
+            var isWinner = purses[currentPlayer] == GoldenCoinsForVictory;
             IncrementCurrentPlayer();
 
-            return winner;
+            return !isWinner;
         }
 
         public bool WrongAnswer()
