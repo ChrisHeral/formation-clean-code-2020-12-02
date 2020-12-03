@@ -129,5 +129,61 @@ namespace Tests
             // Assert
             Assert.False(readOnlyPlayer.InPenaltyBox);
         }
+
+        [Fact]
+        public void should_not_win_a_golden_coin_if_in_penalty_box_and_roll_even()
+        {
+            // Arrange : start game with ???
+            game.AddPlayer("roberto");
+            game.AddPlayer("jojo");
+            game.Roll(4);
+            game.WasWronglyAnswered();
+            game.Roll(6);
+            game.WasCorrectlyAnswered();
+
+            // Act
+            game.Roll(4);
+            game.WasCorrectlyAnswered();
+            IReadOnlyPlayer readOnlyPlayer = game.GetPlayers().First();
+
+            // Assert
+            Assert.Equal(0, readOnlyPlayer.Purse);
+        }
+
+        [Fact]
+        public void should_win_a_golden_coin_if_in_penalty_box_and_roll_odd()
+        {
+            // Arrange : start game with ???
+            game.AddPlayer("roberto");
+            game.AddPlayer("jojo");
+            game.Roll(4);
+            game.WasWronglyAnswered();
+            game.Roll(6);
+            game.WasCorrectlyAnswered();
+
+            // Act
+            game.Roll(3);
+            game.WasCorrectlyAnswered();
+            IReadOnlyPlayer readOnlyPlayer = game.GetPlayers().First();
+
+            // Assert
+            Assert.Equal(1, readOnlyPlayer.Purse);
+        }
+
+        [Fact]
+        public void should_win_a_golden_coin_if_not_in_penalty_box_and_roll_and_correct_answer()
+        {
+            // Arrange : start game with ???
+            game.AddPlayer("roberto");
+            game.AddPlayer("jojo");
+
+            // Act
+            game.Roll(4);
+            game.WasCorrectlyAnswered();
+            IReadOnlyPlayer readOnlyPlayer = game.GetPlayers().First();
+
+            // Assert
+            Assert.Equal(1, readOnlyPlayer.Purse);
+        }
     }
 }

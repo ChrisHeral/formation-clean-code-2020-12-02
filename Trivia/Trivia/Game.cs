@@ -22,7 +22,6 @@ namespace Trivia
         };
 
         private int currentPlayer;
-        private bool isGettingOutOfPenaltyBox;
 
         public Game()
         {
@@ -76,12 +75,11 @@ namespace Trivia
                 if (isEven)
                 {
                     Console.WriteLine(GetCurrentPlayer().Name + " is not getting out of the penalty box");
-                    isGettingOutOfPenaltyBox = false;
                 }
                 else
                 {
                     Console.WriteLine(GetCurrentPlayer().Name + " is getting out of the penalty box");
-                    isGettingOutOfPenaltyBox = true;
+                    GetCurrentPlayer().LeavePenaltyBox();
 
                     MovePlayer(roll);
                     AskQuestion();
@@ -137,19 +135,14 @@ namespace Trivia
                 throw new InvalidOperationException("Missing player");
             }
 
-            if (GetCurrentPlayer().InPenaltyBox && !isGettingOutOfPenaltyBox)
+            if (GetCurrentPlayer().InPenaltyBox)
             {
                 IncrementCurrentPlayer();
-
                 return true;
             }
 
-            return HandleCorrectAnswer();
-        }
-
-        private bool HandleCorrectAnswer()
-        {
             Console.WriteLine("Answer was correct!!!!");
+
             GetCurrentPlayer().WinGoldenCoin();
             Console.WriteLine($"{GetCurrentPlayer().Name} now has {GetCurrentPlayer().Purse} Gold Coins.");
 
