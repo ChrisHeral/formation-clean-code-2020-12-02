@@ -40,6 +40,11 @@ namespace Trivia
             return questionType + " Question " + questionNumber;
         }
 
+        public IEnumerable<IReadOnlyPlayer> GetPlayers()
+        {
+            return players.Select(x => x);
+        }
+
         public bool IsPlayable()
         {
             return (HowManyPlayers() >= 2);
@@ -89,7 +94,7 @@ namespace Trivia
             }
         }
 
-        private Player GetCurrentPlayer()
+        public Player GetCurrentPlayer()
         {
             return players[currentPlayer];
         }

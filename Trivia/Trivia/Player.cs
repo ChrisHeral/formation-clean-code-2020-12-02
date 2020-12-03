@@ -1,6 +1,14 @@
 ﻿namespace Trivia
 {
-    public class Player
+    public interface IReadOnlyPlayer
+    {
+        string Name { get; }
+        int Place { get; }
+        int Purse { get; }
+        bool InPenaltyBox { get; }
+    }
+
+    public class Player : IReadOnlyPlayer
     {
         public string Name { get; }
         public int Place { get; private set; }

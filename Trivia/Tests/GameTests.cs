@@ -90,5 +90,21 @@ namespace Tests
             // Assert
             Assert.Null(exception);
         }
+
+        [Fact]
+        public void should_not_be_able_to_move_if_in_penalty_box_and_roll_odd()
+        {
+            // Arrange : start game with ???
+            game.AddPlayer("roberto");
+            game.AddPlayer("jojo");
+            game.WasWronglyAnswered();
+            game.Roll(6);
+
+            // Act : WasCorrectlyAnswered => victory
+            var exception = Record.Exception(() => game.WasCorrectlyAnswered());
+
+            // Assert
+            Assert.Null(exception);
+        }
     }
 }
