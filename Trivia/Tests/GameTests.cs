@@ -18,8 +18,8 @@ namespace Tests
         public void A_player_without_6_golden_coins_should_not_end_game()
         {
             // Arrange : start game with ???
-            game.Add("Chet");
-            game.Add("Toto");
+            game.AddPlayer("Chet");
+            game.AddPlayer("Toto");
 
             // Act : WasCorrectlyAnswered => victory
             var notVictory = game.WasCorrectlyAnswered();
@@ -32,8 +32,8 @@ namespace Tests
         public void A_player_with_6_golden_coins_should_end_game()
         {
             // Arrange : start game with ???
-            game.Add("Chet");
-            game.Add("Toto");
+            game.AddPlayer("Chet");
+            game.AddPlayer("Toto");
             game.WasCorrectlyAnswered();
             game.WasWronglyAnswered();
             game.WasCorrectlyAnswered();
@@ -69,7 +69,7 @@ namespace Tests
         public void should_not_answer_question_with_only_one_player()
         {
             // Arrange : start game with ???
-            game.Add("roberto");
+            game.AddPlayer("roberto");
 
             // Act : WasCorrectlyAnswered => victory
 
@@ -82,8 +82,8 @@ namespace Tests
         public void should_be_able_to_play_with_two_players()
         {
             // Arrange : start game with ???
-            game.Add("roberto");
-            game.Add("jojo");
+            game.AddPlayer("roberto");
+            game.AddPlayer("jojo");
 
             // Act : WasCorrectlyAnswered => victory
             var exception = Record.Exception(() => game.WasCorrectlyAnswered());
