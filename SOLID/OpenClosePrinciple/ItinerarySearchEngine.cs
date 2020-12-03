@@ -8,14 +8,9 @@ namespace SOLID.OpenClosePrinciple
     public class ItinerarySearchEngine
     {
 
-        public Itinerary OptimalItinerary(Trip trip, ItineraryPreference pref)
+        public Itinerary OptimalItinerary<T>(Trip trip, Func<Itinerary, T> keySelector)
         {
-            return pref switch
-            {
-                ItineraryPreference.Cheapest => ItinerariesFor(trip).OrderBy(i => i.Cost).FirstOrDefault(),
-                ItineraryPreference.Shortest => ItinerariesFor(trip).OrderBy(i => i.Duration).FirstOrDefault(),
-                _ => throw new ArgumentException("Unknown ItineraryType: " + pref)
-            };
+            return ItinerariesFor(trip).OrderBy(keySelector).FirstOrDefault();
         }
 
         private static IEnumerable<Itinerary> ItinerariesFor(Trip trip)
