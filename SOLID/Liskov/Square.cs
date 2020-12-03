@@ -1,25 +1,14 @@
 namespace SOLID.Liskov
 {
-    public class Square : Rectangle
+    public class Square : ICanComputeArea
     {
-        public override int Height
+        private readonly int side;
+
+        public Square(int side)
         {
-            set => Side = value;
+            this.side = side;
         }
 
-        public override int Width
-        {
-            set => Side = value;
-        }
-
-        public int Side
-        {
-            get => Height;
-            set
-            {
-                base.Height = value;
-                base.Width = value;
-            }
-        }
+        public int Area => side * side;
     }
 }
