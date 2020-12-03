@@ -2,7 +2,8 @@
 
 namespace Parrot
 {
-    public class Parrot
+    [Obsolete("Use ICAnGiveSpeed implementation instead",true)]
+    public class Parrot : ICanGiveSpeed
     {
         private readonly bool _isNailed;
         private readonly int _numberOfCoconuts;
