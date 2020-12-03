@@ -6,7 +6,6 @@ namespace Trivia
 {
     public class Game
     {
-        private const int MaximumNumberOfPlayers = 6;
         private const int GoldenCoinsForVictory = 6;
         private const string PopCategoryName = "Pop";
         private const string ScienceCategoryName = "Science";
@@ -14,10 +13,6 @@ namespace Trivia
         private const string RockCategoryName = "Rock";
 
         private readonly List<Player> players = new List<Player>();
-
-        private readonly int[] places = new int[MaximumNumberOfPlayers];
-        private readonly int[] purses = new int[MaximumNumberOfPlayers];
-        private readonly bool[] inPenaltyBox = new bool[MaximumNumberOfPlayers];
 
         private readonly Dictionary<string, LinkedList<string>> questionsByCategory = new Dictionary<string, LinkedList<string>>
         { { PopCategoryName, new LinkedList<string>() },
@@ -54,8 +49,6 @@ namespace Trivia
         {
             var player = new Player(playerName);
             players.Add(player);
-            purses[HowManyPlayers()] = 0;
-            inPenaltyBox[HowManyPlayers()] = false;
 
             Console.WriteLine(playerName + " was added");
             Console.WriteLine("They are player number " + players.Count);
@@ -69,20 +62,20 @@ namespace Trivia
 
         public void Roll(int roll)
         {
-            Console.WriteLine(GetCurrentPlayerName() + " is the current player");
+            Console.WriteLine(GetCurrentPlayer().Name + " is the current player");
             Console.WriteLine("They have rolled a " + roll);
             var isEven = roll % 2 == 0;
 
-            if (inPenaltyBox[currentPlayer])
+            if (GetCurrentPlayer().InPenaltyBox)
             {
                 if (isEven)
                 {
-                    Console.WriteLine(GetCurrentPlayerName() + " is not getting out of the penalty box");
+                    Console.WriteLine(GetCurrentPlayer().Name + " is not getting out of the penalty box");
                     isGettingOutOfPenaltyBox = false;
                 }
                 else
                 {
-                    Console.WriteLine(GetCurrentPlayerName() + " is getting out of the penalty box");
+                    Console.WriteLine(GetCurrentPlayer().Name + " is getting out of the penalty box");
                     isGettingOutOfPenaltyBox = true;
 
                     MovePlayer(roll);
@@ -101,17 +94,12 @@ namespace Trivia
             return players[currentPlayer];
         }
 
-        private string GetCurrentPlayerName()
-        {
-            return GetCurrentPlayer().Name;
-        }
-
         private void MovePlayer(int roll)
         {
             var player = GetCurrentPlayer();
             player.MovePlayer(roll);
 
-            Console.WriteLine(GetCurrentPlayerName() +
+            Console.WriteLine(GetCurrentPlayer().Name +
                 "'s new location is " +
                 player.Place);
         }
@@ -144,7 +132,7 @@ namespace Trivia
                 throw new InvalidOperationException("Missing player");
             }
 
-            if (inPenaltyBox[currentPlayer] && !isGettingOutOfPenaltyBox)
+            if (GetCurrentPlayer().InPenaltyBox && !isGettingOutOfPenaltyBox)
             {
                 IncrementCurrentPlayer();
 
@@ -157,10 +145,10 @@ namespace Trivia
         private bool HandleCorrectAnswer()
         {
             Console.WriteLine("Answer was correct!!!!");
-            purses[currentPlayer]++;
-            Console.WriteLine($"{GetCurrentPlayerName()} now has {purses[currentPlayer]} Gold Coins.");
+            GetCurrentPlayer().WinGoldenCoin();
+            Console.WriteLine($"{GetCurrentPlayer().Name} now has {GetCurrentPlayer().Purse} Gold Coins.");
 
-            var isWinner = purses[currentPlayer] == GoldenCoinsForVictory;
+            var isWinner = GetCurrentPlayer().Purse == GoldenCoinsForVictory;
             IncrementCurrentPlayer();
 
             return !isWinner;
@@ -169,8 +157,9 @@ namespace Trivia
         public bool WasWronglyAnswered()
         {
             Console.WriteLine("Question was incorrectly answered");
-            Console.WriteLine(GetCurrentPlayerName() + " was sent to the penalty box");
-            inPenaltyBox[currentPlayer] = true;
+            Console.WriteLine(GetCurrentPlayer().Name + " was sent to the penalty box");
+
+            GetCurrentPlayer().MoveToPenaltyBox();
             IncrementCurrentPlayer();
 
             return true;
